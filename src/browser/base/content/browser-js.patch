@@ -1,0 +1,61 @@
+diff --git a/browser/base/content/browser.js b/browser/base/content/browser.js
+index a29d7a84e84651ea0bdc9be8e4ac650bde2e048a..bc22e55a66686fbae95047686f845f71a0c3aae9 100644
+--- a/browser/base/content/browser.js
++++ b/browser/base/content/browser.js
+@@ -32,6 +32,7 @@ ChromeUtils.defineESModuleGetters(this, {
+   ContextualIdentityService:
+     "resource://gre/modules/ContextualIdentityService.sys.mjs",
+   CustomizableUI: "resource:///modules/CustomizableUI.sys.mjs",
++  ZenCustomizableUI: "chrome://browser/content/ZenCustomizableUI.sys.mjs",
+   DevToolsSocketStatus:
+     "resource://devtools/shared/security/DevToolsSocketStatus.sys.mjs",
+   DownloadUtils: "resource://gre/modules/DownloadUtils.sys.mjs",
+@@ -629,6 +630,15 @@ XPCOMUtils.defineLazyPreferenceGetter(
+   false
+ );
+ 
++const ZEN_WELCOME_PATH = "zen-welcome";
++const ZEN_WELCOME_ELEMENT_ATTR = "zen-dialog-welcome-element";
++XPCOMUtils.defineLazyServiceGetter(
++  this,
++  "ProfileService",
++  "@mozilla.org/toolkit/profile-service;1",
++  "nsIToolkitProfileService"
++);
++
+ customElements.setElementCreationCallback("screenshots-buttons", () => {
+   Services.scriptloader.loadSubScript(
+     "chrome://browser/content/screenshots/screenshots-buttons.js",
+@@ -3435,6 +3445,10 @@ var XULBrowserWindow = {
+     AboutReaderParent.updateReaderButton(gBrowser.selectedBrowser);
+     TranslationsParent.onLocationChange(gBrowser.selectedBrowser);
+ 
++    gZenViewSplitter.onLocationChange(gBrowser.selectedBrowser);
++    ZenWorkspaces.onLocationChange(gBrowser.selectedBrowser);
++    gZenTabUnloader.onLocationChange(gBrowser.selectedBrowser);
++
+     PictureInPicture.updateUrlbarToggle(gBrowser.selectedBrowser);
+ 
+     if (!gMultiProcessBrowser) {
+@@ -4769,7 +4783,7 @@ function setToolbarVisibility(
+       );
+     }
+ 
+-    const overlapAttr = "BookmarksToolbarOverlapsBrowser";
++    const overlapAttr = "BookmarksToolbarOverlapsBrowser__ignore"; // Original string was "BookmarksToolbarOverlapsBrowser" but it's not used and it only bugs the UI.
+     switch (isVisible) {
+       case true:
+       case "always":
+@@ -7609,6 +7623,12 @@ var gDialogBox = {
+     parentElement.showModal();
+     this._didOpenHTMLDialog = true;
+ 
++    if (uri.includes(ZEN_WELCOME_PATH)) {
++      parentElement.setAttribute(ZEN_WELCOME_ELEMENT_ATTR, true);
++    } else if (parentElement.hasAttribute(ZEN_WELCOME_ELEMENT_ATTR)) {
++      parentElement.removeAttribute(ZEN_WELCOME_ELEMENT_ATTR);
++    }
++
+     // Disable menus and shortcuts.
+     this._updateMenuAndCommandState(false /* to disable */);
+ 

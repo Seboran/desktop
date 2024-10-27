@@ -1,0 +1,37 @@
+diff --git a/browser/base/content/browser.xhtml b/browser/base/content/browser.xhtml
+index 5dd337a2ffc9f9107d735f4dc96a50d57b12d213..58ecaf7136e13885ac38d74d40b5ef0f52cd7684 100644
+--- a/browser/base/content/browser.xhtml
++++ b/browser/base/content/browser.xhtml
+@@ -98,6 +98,8 @@
+ 
+   <title data-l10n-id="browser-main-window-title"></title>
+ 
++#include zen-preloaded.inc.xhtml
++
+ # All JS files which are needed by browser.xhtml and other top level windows to
+ # support MacOS specific features *must* go into the global-scripts.inc file so
+ # that they can be shared with macWindow.inc.xhtml.
+@@ -141,6 +143,7 @@
+   window.addEventListener("DOMContentLoaded",
+     gBrowserInit.onDOMContentLoaded.bind(gBrowserInit), { once: true });
+ </script>
++#include zen-assets.inc.xhtml
+ </head>
+ <html:body xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+ # All sets except for popupsets (commands, keys, and stringbundles)
+@@ -162,9 +165,12 @@
+     </vbox>
+   </html:template>
+ 
+-#include navigator-toolbox.inc.xhtml
+-
+-#include browser-box.inc.xhtml
++  <hbox id="zen-main-app-wrapper" flex="1">
++    #include navigator-toolbox.inc.xhtml
++    <html:span id="zen-sidebar-box-container">
++    </html:span>
++    #include browser-box.inc.xhtml    
++  </hbox>
+ 
+   <html:template id="customizationPanel">
+     <box id="customization-container" flex="1" hidden="true"><![CDATA[

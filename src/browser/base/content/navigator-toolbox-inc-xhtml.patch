@@ -1,0 +1,73 @@
+diff --git a/browser/base/content/navigator-toolbox.inc.xhtml b/browser/base/content/navigator-toolbox.inc.xhtml
+index 18b91c95b88d11ddb257de03f12bc3e4cc75a96a..f117cfa7c9d1f9eb537cebbef42a9d2d945d53ac 100644
+--- a/browser/base/content/navigator-toolbox.inc.xhtml
++++ b/browser/base/content/navigator-toolbox.inc.xhtml
+@@ -2,7 +2,7 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-<toolbox id="navigator-toolbox">
++<toolbox id="navigator-toolbox" persist="width style">
+ 
+   <vbox id="titlebar">
+     <!-- Menu -->
+@@ -32,10 +32,11 @@
+ 
+       <hbox class="titlebar-spacer" type="pre-tabs"/>
+ 
+-      <hbox flex="1" align="end" class="toolbar-items">
++      <hbox flex="1" align="start" class="toolbar-items">
+         <toolbartabstop/>
+         <hbox id="TabsToolbar-customization-target" flex="1">
+           <toolbarbutton id="firefox-view-button"
++                        hidden="true"
+                          class="toolbarbutton-1 chromeclass-toolbar-additional"
+                          data-l10n-id="toolbar-button-firefox-view-2"
+                          role="button"
+@@ -50,7 +51,7 @@
+                 aria-multiselectable="true"
+                 setfocus="false"
+                 tooltip="tabbrowser-tab-tooltip"
+-                orient="horizontal"
++                orient="vertical"
+                 stopwatchid="FX_TAB_CLICK_MS">
+             <hbox class="tab-drop-indicator" hidden="true"/>
+ # If the name (tabbrowser-arrowscrollbox) or structure of this changes
+@@ -66,7 +67,7 @@
+                                   tooltip="dynamic-shortcut-tooltip"
+                                   data-l10n-id="tabs-toolbar-new-tab"/>
+             </html:div>
+-            <arrowscrollbox id="tabbrowser-arrowscrollbox" orient="horizontal" flex="1" style="min-width: 1px;" clicktoscroll="" scrolledtostart="" scrolledtoend="">
++            <arrowscrollbox id="tabbrowser-arrowscrollbox" orient="vertical" style="min-width: 1px;" clicktoscroll="" scrolledtostart="" scrolledtoend="">
+               <tab is="tabbrowser-tab" class="tabbrowser-tab" selected="true" visuallyselected="" fadein=""/>
+               <hbox id="tabbrowser-arrowscrollbox-periphery">
+                 <toolbartabstop/>
+@@ -113,9 +114,10 @@
+       <toolbarbutton id="content-analysis-indicator"
+                      oncommand="ContentAnalysis.showPanel(this, PanelUI);"
+                      class="toolbarbutton-1 content-analysis-indicator-icon"/>
+-
++                     #if 0
+ #include titlebar-items.inc.xhtml
+-
++#endif
++#include zen-sidebar-icons.inc.xhtml
+     </toolbar>
+ 
+   </vbox>
+@@ -471,6 +473,7 @@
+ 
+       <toolbarbutton id="fxa-toolbar-menu-button" class="toolbarbutton-1 chromeclass-toolbar-additional subviewbutton-nav"
+                      badged="true"
++                     hidden="true"
+                      delegatesanchor="true"
+                      onmousedown="gSync.toggleAccountPanel(this, event)"
+                      onkeypress="gSync.toggleAccountPanel(this, event)"
+@@ -522,6 +525,7 @@
+                      consumeanchor="PanelUI-button"
+                      data-l10n-id="appmenu-menu-button-closed2"/>
+     </toolbaritem>
++#include titlebar-items.inc.xhtml
+   </toolbar>
+ 
+   <toolbar id="PersonalToolbar"

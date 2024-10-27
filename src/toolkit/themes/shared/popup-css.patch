@@ -1,0 +1,41 @@
+diff --git a/toolkit/themes/shared/popup.css b/toolkit/themes/shared/popup.css
+index a86b2e0e04769e25acbc6f7d2294dae895e3392e..dce7e1a2bdf52e616c987a04c0d5c1c1ede42676 100644
+--- a/toolkit/themes/shared/popup.css
++++ b/toolkit/themes/shared/popup.css
+@@ -30,8 +30,7 @@ panel {
+   --background-color-canvas: var(--panel-background);
+ 
+   @media (-moz-platform: linux) {
+-    --panel-border-radius: 8px;
+-    --panel-padding-block: 3px;
++
+ 
+     @media (prefers-contrast) {
+       --panel-border-color: color-mix(in srgb, currentColor 60%, transparent);
+@@ -49,18 +48,7 @@ panel {
+     --panel-border-radius: 0px !important;
+   }
+ 
+-  @media (-moz-platform: macos) {
+-    appearance: auto;
+-    -moz-default-appearance: menupopup;
+-    /* We set the default background here, rather than on ::part(content),
+-     * because otherwise it'd interfere with the native look. Non-native-looking
+-     * popups should get their background via --panel-background */
+-    background-color: Menu;
+-    --panel-background: none;
+-    --panel-border-color: transparent;
+-    /* This should be kept in sync with GetMenuMaskImage() */
+-    --panel-border-radius: 6px;
+-  }
++
+ 
+   &::part(content) {
+     display: flex;
+@@ -199,6 +187,5 @@ panel[type="arrow"] {
+   }
+ 
+   &[animating] {
+-    pointer-events: none;
+   }
+ }
