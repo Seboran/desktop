@@ -18,7 +18,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "git submodule update --init --recursive && npm i && npm run init && sh scripts/update-en-US-packs.sh && npm run build",
+	"postCreateCommand": "cargo install cbindgen && git submodule update --init --recursive && pnpm i && pnpm run init && sh scripts/update-en-US-packs.sh && pnpm run build",
 
 	// Configure tool-specific properties.
 	// "customizations": {},
